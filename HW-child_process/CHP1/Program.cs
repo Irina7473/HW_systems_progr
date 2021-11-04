@@ -20,8 +20,7 @@ namespace CHP1
                 Console.WriteLine(i * i);
                 Thread.Sleep(300);                
             }
-
-            Console.ReadLine();
+            
         }
                 
     }
