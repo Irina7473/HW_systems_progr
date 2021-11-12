@@ -12,7 +12,7 @@ namespace CHP2
             {
                 CountWordInFile counter = new CountWordInFile(@"G:\STEP\systems-progr\qq.txt", "ura");
 
-                Thread myThread = new Thread(new ThreadStart(counter.Count));
+                Thread myThread = new Thread(counter.Count);
                 myThread.Start();
 
                 for (int i = 2; i < 9; i++)
