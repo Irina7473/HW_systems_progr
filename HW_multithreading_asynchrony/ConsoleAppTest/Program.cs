@@ -8,37 +8,30 @@ namespace ConsoleAppTest
         static int lowerS = 2;
         static int upperS = 100;
         static void Main(string[] args)
-        {
-            Task task = new Task(Display);
-            task.Start();
-                       
-            Task task5 = new Task(SimpleGeneration);
+        {                                   
+            Task taskSimple = new Task(SimpleGeneration);
             lowerS = 20;
             upperS = 1000;
-            task5.Start();
+            taskSimple.Start();            
 
-            Task task1 = new Task(() => Console.WriteLine("Task1 is executed"));
-            task1.Start();
-            task.Wait();
-
-            Task task2 = Task.Factory.StartNew(() => Console.WriteLine("Task2 is executed"));
-
-            Task task3 = Task.Run(() => Console.WriteLine("Task3 is executed"));
-
-            Task.WaitAll();
+            Task taskFibonacci = Task.Run(() =>
+            {
+                Console.WriteLine("Начало taskFibonacci");
+                Console.Write ("0 1 1 ");
+                FibonacciGeneration(1, 1);
+                Console.WriteLine("Завершение taskFibonacci");
+            });
+            
+            taskSimple.Wait();
+            taskFibonacci.Wait();
+            //Task.WaitAll();
             Console.WriteLine("Завершение метода Main");
 
         }
 
-        static void Display()
-        {
-            Console.WriteLine("Начало работы метода Display");
-
-            Console.WriteLine("Завершение работы метода Display");
-        }
-
         private static void SimpleGeneration()
-        {           
+        {
+            Console.WriteLine("Начало taskSimple");
             if (upperS == 0)
             {
                 for (int n = lowerS; ; n++)
@@ -67,8 +60,17 @@ namespace ConsoleAppTest
                     if (simple) Console.Write($"{n} ");
                 }
             }
+            Console.WriteLine("Завершение taskSimple");
         }
 
+        private static void FibonacciGeneration(long number1, long number2)
+        {
+            if ((number1 + number2) < 1000000000000000000)
+            {                
+                Console.Write($"!{number1 + number2} ");
+                FibonacciGeneration(number2, number1 + number2);
+            }
+        }
 
     }
 }
