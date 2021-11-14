@@ -5,8 +5,105 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW_multithreading_asynchrony"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Два потока" Height="550" Width="1000">
+    <Window.Resources>
+        <ResourceDictionary Source="Style.xaml"/>
+    </Window.Resources>
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Левая панель -->
+        <StackPanel Grid.Column="0">
+                    <TextBlock Text="ПРОСТЫЕ ЧИСЛА" Style="{DynamicResource style_TextBlock_Heading}"/>
+                    <TextBlock Style="{DynamicResource style_TextBlock}">                        
+                        Генерация простых чисел в указанных границах. 
+                        <LineBreak/> 
+                        По умолчанию от 2 до до завершения работы программы.                               
+                    </TextBlock>
+            <TextBlock Text="Желаемые границы в виде целых чисел > или = 0" HorizontalAlignment="Center" 
+                               Style="{DynamicResource style_TextBlock}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="нижняя" Style="{DynamicResource style_TextBlock}"/>
+                    <TextBox x:Name="TextBox_simpleLowerBound" 
+                             TextChanged="TextBox_simpleLowerBound_TextChanged"
+                             Style="{DynamicResource style_TextBox_border}"/>
+                            <TextBlock Text="верхняя" Style="{DynamicResource style_TextBlock}"/>
+                    <TextBox x:Name="TextBox_simpleUpperBound" 
+                             TextChanged="TextBox_simpleUpperBound_TextChanged"
+                             Style="{DynamicResource style_TextBox_border}"/>
+                    </StackPanel>
+                    <WrapPanel Orientation="Horizontal" >
+                        <Button x:Name="Button_simpleStart" Content="Начать" 
+                                Click="Button_simpleStart_Click"
+                                Style="{DynamicResource style_Button_Action}"/>
+                        <Button x:Name="Button_simpleStop" Content="Закончить"
+                                Click="Button_simpleStop_Click"
+                                Style="{DynamicResource style_Button_Action}"/>
+                        <Button x:Name="Button_simpleRestart" Content="Начать заново" 
+                                Click="Button_simpleRestart_Click"                                
+                                Style="{DynamicResource style_Button_Action}"/>
+                        <Button x:Name="Button_simplePause" Content="Пауза" 
+                                Click="Button_simplePause_Click"
+                                Style="{DynamicResource style_Button_Action}"/>
+                        <Button x:Name="Button_simpleContinue" Content="Продолжить" 
+                                Click="Button_simpleContinue_Click"
+                                Style="{DynamicResource style_Button_Action}"/>                        
+                    </WrapPanel>
+            <TextBlock Text="Сгенерированы числа" HorizontalAlignment="Center" 
+                               Style="{DynamicResource style_TextBlock}"/>
+                <ScrollViewer>
+                    <RichTextBox x:Name="RichTextBox_simpleOutput" Height="200"
+                                 Style="{DynamicResource style_RichTextBox}" />
+                </ScrollViewer>
+        </StackPanel>  
+        <!-- Разделитель -->
+        <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" Background="CornflowerBlue"
+                              HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+        <!-- Правая панель -->
+        <StackPanel Grid.Column="2">
+            <TextBlock Text="ЧИСЛА ФИБОНАЧЧИ" Style="{DynamicResource style_TextBlock_Heading}"/>
+            <TextBlock Style="{DynamicResource style_TextBlock}">                        
+                        Генерация  чисел Фибоначчи. </TextBlock>
+            <!--
+            <TextBlock Text="Желаемые границы в виде целых чисел > или = 0" HorizontalAlignment="Center" 
+                               Style="{DynamicResource style_TextBlock}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="нижняя" Style="{DynamicResource style_TextBlock}"/>
+                <TextBox x:Name="TextBox_FibonacciLowerBound" 
+                         TextChanged="TextBox_FibonacciLowerBound_TextChanged"
+                         Style="{DynamicResource style_TextBox_border}"/>
+                <TextBlock Text="верхняя" Style="{DynamicResource style_TextBlock}"/>
+                <TextBox x:Name="TextBox_FibonacciUpperBound"
+                         TextChanged="TextBox_FibonacciUpperBound_TextChanged"
+                         Style="{DynamicResource style_TextBox_border}"/>
+            </StackPanel>
+            -->
+            <WrapPanel Orientation="Horizontal" >
+                <Button x:Name="Button_FibonacciStart" Content="Начать" 
+                        Click="Button_FibonacciStart_Click"
+                        Style="{DynamicResource style_Button_Action}"/>
+                <Button x:Name="Button_FibonacciStop" Content="Закончить" 
+                        Click="Button_FibonacciStop_Click"
+                        Style="{DynamicResource style_Button_Action}"/>
+                <Button x:Name="Button_FibonacciRestart" Content="Начать заново" 
+                        Click="Button_FibonacciRestart_Click"
+                        Style="{DynamicResource style_Button_Action}"/>
+                <Button x:Name="Button_FibonacciPause" Content="Пауза" 
+                        Click="Button_FibonacciPause_Click"
+                        Style="{DynamicResource style_Button_Action}"/>
+                <Button x:Name="Button_FibonaccieContinue" Content="Продолжить" 
+                        Click="Button_FibonaccieContinue_Click"
+                        Style="{DynamicResource style_Button_Action}"/>
+            </WrapPanel>
+            <TextBlock Text="Сгенерированы числа" HorizontalAlignment="Center" 
+                               Style="{DynamicResource style_TextBlock}"/>
+            <ScrollViewer>
+                <RichTextBox x:Name="RichTextBox_FibonacciOutput" Height="280"
+                        Style="{DynamicResource style_RichTextBox}" />
+            </ScrollViewer>
+        </StackPanel>
     </Grid>
 </Window>
