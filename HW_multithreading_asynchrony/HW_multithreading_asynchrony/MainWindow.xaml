@@ -27,11 +27,11 @@
                                Style="{DynamicResource style_TextBlock}"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="нижняя" Style="{DynamicResource style_TextBlock}"/>
-                    <TextBox x:Name="TextBox_simpleLowerBound" 
+                <TextBox x:Name="TextBox_simpleLowerBound" 
                              TextChanged="TextBox_simpleLowerBound_TextChanged"
                              Style="{DynamicResource style_TextBox_border}"/>
                             <TextBlock Text="верхняя" Style="{DynamicResource style_TextBlock}"/>
-                    <TextBox x:Name="TextBox_simpleUpperBound" 
+                <TextBox x:Name="TextBox_simpleUpperBound"
                              TextChanged="TextBox_simpleUpperBound_TextChanged"
                              Style="{DynamicResource style_TextBox_border}"/>
                     </StackPanel>
@@ -55,7 +55,7 @@
             <TextBlock Text="Сгенерированы числа" HorizontalAlignment="Center" 
                                Style="{DynamicResource style_TextBlock}"/>
                 <ScrollViewer>
-                    <RichTextBox x:Name="RichTextBox_simpleOutput" Height="200"
+                    <RichTextBox x:Name="Output" Height="200"
                                  Style="{DynamicResource style_RichTextBox}" />
                 </ScrollViewer>
         </StackPanel>  

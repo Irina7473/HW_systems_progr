@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfAppTEST.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppTEST"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="Random" Margin="10" Width="200"/>
+            <Button x:Name="Button_RandomStart" 
+                    Content="Start random" 
+                    Margin="10" 
+                    Click="Button_RandomStart_OnClick"/>
+            <Button x:Name="Button_RandomStop" 
+                    Content="Stop random" 
+                    Margin="10" 
+                    Click="Button_RandomStop_OnClick"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

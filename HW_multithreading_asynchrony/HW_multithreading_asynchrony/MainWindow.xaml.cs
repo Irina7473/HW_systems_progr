@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace HW_multithreading_asynchrony
 {
@@ -23,25 +15,23 @@ namespace HW_multithreading_asynchrony
     {
         public Task taskSimple;
         public Task taskFibonacci;
-        // CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource cancelTokenS;
+        private CancellationTokenSource cancelTokenF;
 
         //List<int> SimpleList;
         //List<int> FibonacciList;
-        private int lowerS, upperS, lowerF, upperF;
+        private int lowerS, upperS;
         private bool simple;
         
         public MainWindow()
         {
-            InitializeComponent();
-
-            //CancellationToken token = cancelTokenSource.Token;     
+            InitializeComponent();                 
             //SimpleList = new List<int>();
             //FibonacciList = new List<int>();
-
             lowerS = 2;
-            upperS = 0;
-            lowerF = 0;
-            upperF = 0;
+            upperS = 1000;
+            TextBox_simpleLowerBound.Text = "";
+            TextBox_simpleUpperBound.Text = "";
         }
 
         // Prime numbers
@@ -49,34 +39,51 @@ namespace HW_multithreading_asynchrony
         private void TextBox_simpleLowerBound_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TextBox_simpleLowerBound.Text != "") lowerS = borderCheck(TextBox_simpleLowerBound.Text);
+            else lowerS = 2;
         }
 
         private void TextBox_simpleUpperBound_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TextBox_simpleUpperBound.Text != "") upperS = borderCheck(TextBox_simpleUpperBound.Text);
+            else upperS = 1000;
         }
 
-        private void Button_simpleStart_Click(object sender, RoutedEventArgs e)
-        {
-            taskSimple = Task.Run(() =>
+        private async void Button_simpleStart_Click(object sender, RoutedEventArgs e)               
+        {            
+            if (cancelTokenS != null) return;
+            try
             {
-                RichTextBox_simpleOutput.Document.Blocks.Clear();
-                SimpleGeneration();
-            });
-            //RichTextBox_simpleOutput.Document.Blocks.Clear();            
-            //taskSimple = Task.Run(() => SimpleGeneration());
-            //taskSimple = new Task(SimpleGeneration);
-            //taskSimple.Start();
+                using (cancelTokenS = new CancellationTokenSource())
+                {
+                    //RichTextBox_simpleOutput.Document.Blocks.Clear();
+                    Output.AppendText("Начинаю генерацию простых чисел: ");
+                    await SimpleGenerationAsync(Output, cancelTokenS.Token);
+                }
+            }
+            catch (Exception exception)
+            {
+                //MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                cancelTokenS = null;
+            }       
         }
+
 
         private void Button_simpleStop_Click(object sender, RoutedEventArgs e)
         {
-
+            cancelTokenS?.Cancel();
+            lowerS = 2;
+            upperS = 1000;
+            TextBox_simpleLowerBound.Text = "";
+            TextBox_simpleUpperBound.Text = "";
+            Output.AppendText("Генерация простых чисел закончена. ");
         }
 
         private void Button_simpleRestart_Click(object sender, RoutedEventArgs e)
         {
-            RichTextBox_simpleOutput.Document.Blocks.Clear();
+            
         }
        
         private void Button_simplePause_Click(object sender, RoutedEventArgs e)
@@ -104,58 +111,82 @@ namespace HW_multithreading_asynchrony
             catch { MessageBox.Show("Введите границу в виде целого числа > или = 0"); return -100; }
             
         }
-        private void SimpleGeneration()
-        {
-            if (upperS == 0)
+       
+        private async Task SimpleGenerationAsync(RichTextBox output, CancellationToken token)
+        {    
+            await output.Dispatcher.Invoke(async () =>
             {
-                for (int n = lowerS; ; n++)
+                if (upperS == 0)
                 {
-                    simple = true;
-                    for (int i = 2; i < n; i++)
+                    for (int n = lowerS; ; n++)
                     {
-                        if (n % i == 0)
+                        simple = true;
+                        for (int i = 2; i < n; i++)
                         {
-                            simple = false;
-                            break;
+                            if (n % i == 0)
+                            {
+                                simple = false;
+                                break;
+                            }
                         }
+                        if (simple) Output.AppendText($"{n} ");
                     }
-                    if (simple) RichTextBox_simpleOutput.AppendText($"{n} ");
-                }
 
-            }
-            else 
-            { 
-            for (int n = lowerS; n < upperS; n++)
-            {
-                   simple = true;
-                    for (int i = 2; i < n; i++)
-                {
-                        if (n % i == 0)
+                }
+                else
+                    for (int n = lowerS; n < upperS; n++)
+                    {
+                        simple = true;
+                        for (int i = 2; i < n; i++)
                         {
-                            simple = false;
-                            break;
+                            if (n % i == 0)
+                            {
+                                simple = false;
+                                break;
+                            }
                         }
-                }
-                if (simple) RichTextBox_simpleOutput.AppendText($"{n} ");
-            }
-            }
+                        if (simple) Output.AppendText($"{n} ");
+                    await Task.Delay(10, token);
+                    }
+                Output.AppendText("Достигнута верхняя граница для простых чисел. ");
+
+            }, DispatcherPriority.Normal, token); 
         }
-
-
+       
         // Fibonacci numbers 
-        private void Button_FibonacciStart_Click(object sender, RoutedEventArgs e)
+        private async void Button_FibonacciStart_Click(object sender, RoutedEventArgs e)
         {
-            taskFibonacci = Task.Run(() =>
+            if (cancelTokenF != null) return;
+            try
             {
-                RichTextBox_FibonacciOutput.Document.Blocks.Clear();
-                RichTextBox_FibonacciOutput.AppendText("0 1 1 ");
-                FibonacciGeneration(1, 1);
-            });        
+                using (cancelTokenF = new CancellationTokenSource())
+                {
+                    /*
+                    RichTextBox_FibonacciOutput.Document.Blocks.Clear();
+                    RichTextBox_FibonacciOutput.AppendText("Начинаю генерацию чисел Фибоначчи: ");
+                    RichTextBox_FibonacciOutput.AppendText("0 1 1 ");
+                    await FibonacciGeneration(RichTextBox_FibonacciOutput, cancelTokenF.Token, 1, 1);*/
+                    
+                    Output.AppendText("Начинаю генерацию чисел Фибоначчи: ");
+                    Output.AppendText("0 1 1 ");
+                    await FibonacciGeneration(Output, cancelTokenF.Token, 1 ,1);
+                    Output.AppendText("Генерация чисел Фибоначчи закончена. ");
+                }
+            }
+            catch (Exception exception)
+            {
+                //MessageBox.Show(exception.Message);
+            }
+            finally
+            {
+                cancelTokenF = null;
+            }
         }
 
         private void Button_FibonacciStop_Click(object sender, RoutedEventArgs e)
         {
-            //cancelTokenSource.Cancel();
+            cancelTokenF?.Cancel();
+            Output.AppendText("Генерация чисел Фибоначчи закончена. ");
         }
 
         private void Button_FibonacciRestart_Click(object sender, RoutedEventArgs e)
@@ -173,13 +204,16 @@ namespace HW_multithreading_asynchrony
             
         }
                
-        private void FibonacciGeneration (long number1, long number2)
+        private async Task FibonacciGeneration (RichTextBox output, CancellationToken token, long number1, long number2)
         {
-            if ((number1 + number2) < 1000000000000000000)
+            await output.Dispatcher.Invoke(async () =>
             {
-                RichTextBox_FibonacciOutput.AppendText($"{number1 + number2} ");
-                FibonacciGeneration(number2, number1 + number2);
-            }
+                if ((number1 + number2) < 1000000000000000000)
+                {
+                    output.AppendText($"{number1 + number2} ");
+                    await FibonacciGeneration(output, token, number2, number1 + number2);                    
+                }
+            }, DispatcherPriority.Normal, token);            
         }
     }
 }
@@ -212,5 +246,4 @@ namespace HW_multithreading_asynchrony
 Задание 5
 Добавьте к четвертому заданию возможность полного
 рестарта потоков с новыми границами
-
 */
