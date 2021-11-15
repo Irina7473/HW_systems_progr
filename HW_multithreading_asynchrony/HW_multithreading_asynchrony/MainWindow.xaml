@@ -10,6 +10,11 @@
         <ResourceDictionary Source="Style.xaml"/>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />            
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -52,12 +57,7 @@
                                 Click="Button_simpleContinue_Click"
                                 Style="{DynamicResource style_Button_Action}"/>                        
                     </WrapPanel>
-            <TextBlock Text="Сгенерированы числа" HorizontalAlignment="Center" 
-                               Style="{DynamicResource style_TextBlock}"/>
-                <ScrollViewer>
-                    <RichTextBox x:Name="Output" Height="200"
-                                 Style="{DynamicResource style_RichTextBox}" />
-                </ScrollViewer>
+            
         </StackPanel>  
         <!-- Разделитель -->
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" Background="CornflowerBlue"
@@ -66,21 +66,7 @@
         <StackPanel Grid.Column="2">
             <TextBlock Text="ЧИСЛА ФИБОНАЧЧИ" Style="{DynamicResource style_TextBlock_Heading}"/>
             <TextBlock Style="{DynamicResource style_TextBlock}">                        
-                        Генерация  чисел Фибоначчи. </TextBlock>
-            <!--
-            <TextBlock Text="Желаемые границы в виде целых чисел > или = 0" HorizontalAlignment="Center" 
-                               Style="{DynamicResource style_TextBlock}"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="нижняя" Style="{DynamicResource style_TextBlock}"/>
-                <TextBox x:Name="TextBox_FibonacciLowerBound" 
-                         TextChanged="TextBox_FibonacciLowerBound_TextChanged"
-                         Style="{DynamicResource style_TextBox_border}"/>
-                <TextBlock Text="верхняя" Style="{DynamicResource style_TextBlock}"/>
-                <TextBox x:Name="TextBox_FibonacciUpperBound"
-                         TextChanged="TextBox_FibonacciUpperBound_TextChanged"
-                         Style="{DynamicResource style_TextBox_border}"/>
-            </StackPanel>
-            -->
+                        Генерация  чисел Фибоначчи. </TextBlock>           
             <WrapPanel Orientation="Horizontal" >
                 <Button x:Name="Button_FibonacciStart" Content="Начать" 
                         Click="Button_FibonacciStart_Click"
@@ -97,13 +83,16 @@
                 <Button x:Name="Button_FibonaccieContinue" Content="Продолжить" 
                         Click="Button_FibonaccieContinue_Click"
                         Style="{DynamicResource style_Button_Action}"/>
-            </WrapPanel>
+            </WrapPanel>            
+        </StackPanel>
+    </Grid>
+        <Grid Grid.Row="1">
             <TextBlock Text="Сгенерированы числа" HorizontalAlignment="Center" 
                                Style="{DynamicResource style_TextBlock}"/>
             <ScrollViewer>
-                <RichTextBox x:Name="RichTextBox_FibonacciOutput" Height="280"
-                        Style="{DynamicResource style_RichTextBox}" />
+                <RichTextBox x:Name="Output" Height="200"
+                                 Style="{DynamicResource style_RichTextBox}" />
             </ScrollViewer>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
