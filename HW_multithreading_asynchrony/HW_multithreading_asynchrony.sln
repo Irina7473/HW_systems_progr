@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HW_multithreading_asynchron
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{04B20EE9-35BA-4E50-B741-5E65565D9147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppTEST", "WpfAppTEST\WpfAppTEST.csproj", "{4F54CA20-0DBD-463C-BA3E-1374FB64806B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{04B20EE9-35BA-4E50-B741-5E65565D9147}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04B20EE9-35BA-4E50-B741-5E65565D9147}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04B20EE9-35BA-4E50-B741-5E65565D9147}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F54CA20-0DBD-463C-BA3E-1374FB64806B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F54CA20-0DBD-463C-BA3E-1374FB64806B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F54CA20-0DBD-463C-BA3E-1374FB64806B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F54CA20-0DBD-463C-BA3E-1374FB64806B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
